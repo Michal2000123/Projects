@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Anzeige der Funktionen von app.js auf einer Webseite">
+    <title>App.js Anzeige</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background: #0078d7;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background: #0078d7;
+            color: #fff;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>App.js Funktionen</h1>
+    </header>
+    <main>
+        <div id="output"></div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Deine Webseite</p>
+    </footer>
+    <script src="app.js"></script>
+    <script>
+        // Beispiel: Eine Funktion aus app.js ausführen und das Ergebnis anzeigen
+        if (typeof myFunction === 'function') {
+            const result = myFunction(); // Ersetze "myFunction" mit der tatsächlichen Funktion aus app.js
+            document.getElementById('output').textContent = result;
+        } else {
+            document.getElementById('output').textContent = 'Die Funktion konnte nicht gefunden werden.';
+        }
+    </script>
+</body>
+</html>
