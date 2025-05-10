@@ -1,70 +1,65 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Fun</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            max-width: 400px;
-            margin: auto;
-        }
-        input, button {
-            margin: 5px 0;
-            padding: 10px;
-            width: 100%;
-        }
-        .result {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Math Fun</h1>
-        <h2>Factorial</h2>
-        <input type="number" id="factorialInput" placeholder="Enter a number">
-        <button onclick="calculateFactorial()">Calculate Factorial</button>
-        <div class="result" id="factorialResult"></div>
+// App.js
+import React, { useState } from 'react';
+import './App.css';
 
-        <h2>Fibonacci</h2>
-        <input type="number" id="fibonacciInput" placeholder="Enter count">
-        <button onclick="generateFibonacci()">Generate Fibonacci</button>
-        <div class="result" id="fibonacciResult"></div>
-    </div>
+function App() {
+    const [query, setQuery] = useState('');
+    const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    <script>
-        function calculateFactorial() {
-            const number = parseInt(document.getElementById('factorialInput').value);
-            if (number < 0) {
-                document.getElementById('factorialResult').innerText = "Number must be non-negative.";
-                return;
-            }
-            let result = 1;
-            for (let i = 1; i <= number; i++) {
-                result *= i;
-            }
-            document.getElementById('factorialResult').innerText = `Factorial of ${number} is ${result}`;
+    const fetchRecipes = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(
+                `https://api.edamam.com/search?q=${query}&app_id=YOUR_APP_ID&app_key=YOUR_APP_KEY`
+            );
+            const data = await response.json();
+            setRecipes(data.hits);
+        } catch (error) {
+            console.error('Error fetching recipes:', error);
         }
+        setLoading(false);
+    };
 
-        function generateFibonacci() {
-            const count = parseInt(document.getElementById('fibonacciInput').value);
-            if (count < 0) {
-                document.getElementById('fibonacciResult').innerText = "Count must be non-negative.";
-                return;
-            }
-            const sequence = [0, 1];
-            for (let i = 2; i < count; i++) {
-                sequence.push(sequence[i - 1] + sequence[i - 2]);
-            }
-            document.getElementById('fibonacciResult').innerText = `First ${count} Fibonacci numbers: ${sequence.slice(0, count).join(', ')}`;
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (query.trim()) {
+            fetchRecipes();
         }
-    </script>
-</body>
-</html>
+    };
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h1>Recipe Search Engine</h1>
+                <form onSubmit={handleSearch}>
+                    <input
+                        type="text"
+                        placeholder="Search for recipes..."
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    <button type="submit">Search</button>
+                </form>
+            </header>
+            <main>
+                {loading && <p>Loading...</p>}
+                <div className="recipes">
+                    {recipes.map((recipe, index) => (
+                        <div key={index} className="recipe">
+                            <h2>{recipe.recipe.label}</h2>
+                            <img src={recipe.recipe.image} alt={recipe.recipe.label} />
+                            <p>
+                                <a href={recipe.recipe.url} target="_blank" rel="noopener noreferrer">
+                                    View Recipe
+                                </a>
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </main>
+        </div>
+    );
+}
+
+export default App;
