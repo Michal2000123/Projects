@@ -1,112 +1,70 @@
-<!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professionelle HTML-Seite zur Ausgabe von Rechner.cs">
-    <title>Rechner.cs Ausgabe</title>
+    <title>Math Fun</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            margin: 20px;
         }
-        header {
-            background: #0078d7;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
+        .container {
+            max-width: 400px;
+            margin: auto;
         }
-        main {
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        input, button {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
         }
-        pre {
-            background: #f4f4f4;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            overflow-x: auto;
-        }
-        footer {
-            text-align: center;
-            padding: 1rem 0;
-            background: #0078d7;
-            color: #fff;
-            margin-top: 2rem;
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Rechner.cs Ausgabe</h1>
-    </header>
-    <main>
-        <h2>Code-Inhalt von Rechner.cs</h2>
-        <pre>
-using System;
+    <div class="container">
+        <h1>Math Fun</h1>
+        <h2>Factorial</h2>
+        <input type="number" id="factorialInput" placeholder="Enter a number">
+        <button onclick="calculateFactorial()">Calculate Factorial</button>
+        <div class="result" id="factorialResult"></div>
 
-namespace Rechner
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Willkommen beim Rechner!");
-            Console.Write("Geben Sie die erste Zahl ein: ");
-            double zahl1 = Convert.ToDouble(Console.ReadLine());
+        <h2>Fibonacci</h2>
+        <input type="number" id="fibonacciInput" placeholder="Enter count">
+        <button onclick="generateFibonacci()">Generate Fibonacci</button>
+        <div class="result" id="fibonacciResult"></div>
+    </div>
 
-            Console.Write("Geben Sie die zweite Zahl ein: ");
-            double zahl2 = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Wählen Sie eine Operation (+, -, *, /): ");
-            string operation = Console.ReadLine();
-
-            double ergebnis = 0;
-
-            switch (operation)
-            {
-                case "+":
-                    ergebnis = zahl1 + zahl2;
-                    break;
-                case "-":
-                    ergebnis = zahl1 - zahl2;
-                    break;
-                case "*":
-                    ergebnis = zahl1 * zahl2;
-                    break;
-                case "/":
-                    if (zahl2 != 0)
-                        ergebnis = zahl1 / zahl2;
-                    else
-                        Console.WriteLine("Division durch Null ist nicht erlaubt.");
-                    break;
-                default:
-                    Console.WriteLine("Ungültige Operation.");
-                    break;
+    <script>
+        function calculateFactorial() {
+            const number = parseInt(document.getElementById('factorialInput').value);
+            if (number < 0) {
+                document.getElementById('factorialResult').innerText = "Number must be non-negative.";
+                return;
             }
-
-            Console.WriteLine($"Das Ergebnis ist: {ergebnis}");
+            let result = 1;
+            for (let i = 1; i <= number; i++) {
+                result *= i;
+            }
+            document.getElementById('factorialResult').innerText = `Factorial of ${number} is ${result}`;
         }
-    }
-}
-        </pre>
-        <h2>Ausgabe des Programms</h2>
-        <pre>
-Willkommen beim Rechner!
-Geben Sie die erste Zahl ein: 10
-Geben Sie die zweite Zahl ein: 5
-Wählen Sie eine Operation (+, -, *, /): +
-Das Ergebnis ist: 15
-        </pre>
-    </main>
-    <footer>
-        <p>&copy; 2023 Rechner.cs Ausgabe</p>
-    </footer>
+
+        function generateFibonacci() {
+            const count = parseInt(document.getElementById('fibonacciInput').value);
+            if (count < 0) {
+                document.getElementById('fibonacciResult').innerText = "Count must be non-negative.";
+                return;
+            }
+            const sequence = [0, 1];
+            for (let i = 2; i < count; i++) {
+                sequence.push(sequence[i - 1] + sequence[i - 2]);
+            }
+            document.getElementById('fibonacciResult').innerText = `First ${count} Fibonacci numbers: ${sequence.slice(0, count).join(', ')}`;
+        }
+    </script>
 </body>
 </html>
